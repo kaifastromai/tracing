@@ -412,19 +412,16 @@ pub struct Format<F = Full, T = SystemTime> {
 // === impl Writer ===
 
 impl<'writer> Writer<'writer> {
-    // TODO(eliza): consider making this a public API?
-    // We may not want to do that if we choose to expose specialized
-    // constructors instead (e.g. `from_string` that stores whether the string
-    // is empty...?)
-    pub(crate) fn new(writer: &'writer mut impl fmt::Write) -> Self {
+    ///Create a new [Writer].
+    pub fn new(writer: &'writer mut impl fmt::Write) -> Self {
         Self {
             writer: writer as &mut dyn fmt::Write,
             is_ansi: false,
         }
     }
 
-    // TODO(eliza): consider making this a public API?
-    pub(crate) fn with_ansi(self, is_ansi: bool) -> Self {
+    /// Consumes self, returning a version with ansi set to is_ansi
+    pub fn with_ansi(self, is_ansi: bool) -> Self {
         Self { is_ansi, ..self }
     }
 
